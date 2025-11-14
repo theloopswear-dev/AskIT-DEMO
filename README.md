@@ -1,35 +1,42 @@
 
-# Bapto AI – Your Screen-Shared ChatGPT Companion
+# AskIT AI - Your Multilingual Government Services Assistant
 
-Bapto AI is a real-time, intelligent screen-sharing assistant that helps users navigate complex software by integrating powerful AI models such as ChatGPT, Gemini, and OpenRouter. Whether you're working in Adobe Premiere Pro, After Effects, or any design tool, Bapto floats over your screen and provides instant, voice-enabled support based on what you see and do.
+AskIT AI is a real-time, AI-powered screen-sharing assistant designed to help users navigate government services and everyday tasks through natural voice interaction. Inspired by Google Gemini Live Studio, AskIT understands and responds in multiple Indian languages including Tamil, Telugu, Hindi, and English.
 
 ---
 
 ## Features
 
-- Real-time, floating AI assistant
-- Context-aware responses based on screen content
-- Voice interaction using speech synthesis
-- AI integration with ChatGPT, Gemini Pro, and OpenRouter
-- On-screen UI element recognition using Roboflow
-- Mouse tracking and interaction detection
-- Modular architecture built with modern web technologies
-- Secure `.env`-based configuration
-- Scalable setup with subscription-ready infrastructure
+- Real-time voice interaction with OpenAI Realtime API
+- Automatic multilingual support (Tamil, Telugu, Hindi, English, etc.)
+- Continuous screen analysis using GPT-4 Vision
+- Step-by-step guidance for government services
+- Tab-persistent conversation
+- No typing required - fully voice-driven
+- Automatic microphone activation on screen share
 
 ---
 
-## Inspiration
+## How It Works
 
-As a passionate video editor and graphic designer, I often found myself struggling to locate tools or resolve issues within complex software like Adobe Premiere Pro or After Effects.
+1. Click "Start Screen Share" to begin
+2. Select the screen or window you want to share
+3. AskIT automatically:
+   - Activates your microphone
+   - Starts listening in your preferred language
+   - Analyzes your screen every 2-3 seconds
+   - Provides spoken guidance based on what you see and say
 
-I used to take screenshots and send them to ChatGPT manually to ask for help, but that process was slow and disrupted my creative flow.
+---
 
-That’s when the idea struck:
+## Use Cases
 
-*"What if there was a floating AI assistant that could watch my screen and guide me instantly?"*
-
-And thus, **Bapto AI** was born.
+- Downloading Aadhaar card
+- Applying for PAN card
+- Filing income tax returns
+- Booking train/bus tickets
+- Any government service navigation
+- General computer tasks with multilingual support
 
 ---
 
@@ -38,8 +45,8 @@ And thus, **Bapto AI** was born.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/bapto-ai.git
-cd bapto-ai/project
+git clone https://github.com/your-username/askit-ai.git
+cd askit-ai
 ```
 
 ### 2. Install Dependencies
@@ -52,23 +59,21 @@ npm install
 
 ### 3. Configure Environment Variables
 
-Create a `.env` file in the `project/` directory. Example:
+Create a `.env` file in the root directory:
 
 ```env
-VITE_OPENROUTER_API_KEY=your_openrouter_api_key
-VITE_GEMINI_API_KEY=your_gemini_api_key
-VITE_SOME_OTHER_ENV=your_value
+VITE_OPENAI_API_KEY=your_openai_api_key
 ```
 
-> Note: Never share your `.env` file publicly.
+> Note: You need an OpenAI API key with access to GPT-4 Vision and Realtime API.
 
-### 4. Run the App in Development Mode
+### 4. Run the App
 
 ```bash
 npm run dev
 ```
 
-Visit [http://localhost:5173](http://localhost:5173) to see the app running locally.
+Visit [http://localhost:5173](http://localhost:5173) to use AskIT AI.
 
 ---
 
@@ -79,78 +84,94 @@ project/
 ├── public/                 # Static assets
 ├── src/                    # Main application source
 │   ├── components/         # React components
-│   ├── services/           # API utilities and logic
-│   ├── App.tsx             # Main app logic
-│   └── main.tsx            # App entry point
+│   │   └── AskITScreenShare.tsx  # Main screen sharing component
+│   ├── hooks/              # Custom React hooks
+│   │   └── useRealtimeVoice.ts   # Voice interaction hook
+│   ├── services/           # API utilities
+│   │   └── openaiRealtime.ts     # OpenAI Realtime service
+│   ├── App.tsx             # Main app entry
+│   └── main.tsx            # React entry point
 ├── .env                    # Environment variables
-├── package.json            # Dependencies and scripts
-├── vite.config.ts          # Vite configuration
-├── tailwind.config.js      # TailwindCSS setup
-├── tsconfig.json           # TypeScript configuration
-└── index.html              # App container
+├── package.json            # Dependencies
+└── vite.config.ts          # Vite configuration
 ```
 
 ---
 
-## How It Works
+## Technologies Used
 
-- **Frontend**: Built using React, TypeScript, and TailwindCSS via Vite
-- **AI Services**: ChatGPT, Gemini Pro, OpenRouter APIs
-- **Visual Recognition**: Roboflow for screen element detection
-- **Voice Interaction**: Web Speech API or external TTS libraries
-- **Mouse/Screen Tracking**: Custom utilities to detect user focus
-- **Overlay UI**: Responsive floating assistant design
-- **Environment Management**: Using `.env` for secure key handling
+- **Frontend**: React, TypeScript, TailwindCSS, Vite
+- **AI**: OpenAI Realtime API, GPT-4 Vision
+- **Voice**: Built-in OpenAI Whisper + TTS
+- **Screen Capture**: Browser MediaStream API
 
 ---
 
-## Challenges Faced
+## Key Features
 
-- Developing a chatbot UI that doesn’t interfere with screen activity
-- Capturing screen images efficiently while maintaining performance
-- Integrating and managing multiple AI APIs simultaneously
-- Handling real-time feedback with minimal latency
-- Planning for monetization via subscription (RevenueCat-ready)
+### Automatic Language Detection
+AskIT automatically detects and responds in your spoken language - no language selection needed.
+
+### Continuous Screen Understanding
+Every 2-3 seconds, AskIT captures and analyzes your screen to provide contextual guidance.
+
+### Tab Persistence
+The conversation continues even when you switch to other browser tabs.
+
+### No Typing Required
+Fully voice-driven interface - just speak naturally.
+
+---
+
+## Configuration
+
+### OpenAI API Setup
+
+1. Get an API key from [OpenAI Platform](https://platform.openai.com/)
+2. Ensure you have access to:
+   - GPT-4 Vision models
+   - Realtime API (gpt-4o-realtime-preview)
+3. Add the key to your `.env` file
 
 ---
 
 ## Available Scripts
 
 ```bash
-npm run dev         # Starts the development server
-npm run build       # Builds the app for production
-npm run preview     # Previews the production build
-npm run lint        # Runs ESLint for code quality checks
+npm run dev         # Start development server
+npm run build       # Build for production
+npm run preview     # Preview production build
+npm run lint        # Run ESLint
 ```
 
 ---
 
 ## Deployment
 
-You can deploy this app using platforms like:
+Deploy to platforms like:
 
 - Vercel: https://vercel.com/
 - Netlify: https://www.netlify.com/
 - Render: https://render.com/
 
-> Make sure to add all required `.env` variables in the deployment platform's environment settings.
+Remember to add your `VITE_OPENAI_API_KEY` in the deployment platform's environment settings.
 
 ---
 
-## What's Next
+## Future Enhancements
 
-- Optimizing screenshot frequency and compression techniques
-- Adding multilingual voice interaction
-- Full integration with RevenueCat for premium plans
-- Building a native desktop version for more seamless software support
+- Native mobile apps (iOS/Android)
+- Offline mode with cached guidance
+- Integration with specific government portals
+- Custom voice models for regional accents
+- Multi-user collaboration
 
 ---
 
 ## License
 
-This project is licensed under the MIT License.  
-See the [`LICENSE`](./LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ---
 
-Created and maintained by **Merlin Baptista**.  
+Created for societal good - Making government services accessible to everyone in their native language.
