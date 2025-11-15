@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Monitor, Square, Mic, Activity, Sparkles, Eye } from 'lucide-react';
+import { Monitor, Square, Mic, Activity, Sparkles, Eye, AlertCircle } from 'lucide-react';
 import { useRealtimeVoice } from '../hooks/useRealtimeVoice';
 
 export const AskITScreenShare: React.FC = () => {
@@ -35,7 +35,7 @@ export const AskITScreenShare: React.FC = () => {
       canvas.height = videoRef.current.videoHeight;
       ctx.drawImage(videoRef.current, 0, 0);
 
-      return canvas.toDataURL('image/jpeg', 0.7);
+      return canvas.toDataURL('image/jpeg', 0.8);
     } catch (error) {
       console.error('Error capturing frame:', error);
       return null;
@@ -48,7 +48,7 @@ export const AskITScreenShare: React.FC = () => {
     setTimeout(async () => {
       const frame = await captureFrame();
       if (frame) {
-        sendScreenContext(frame, 'Analyze this screen and provide step-by-step guidance in my language');
+        sendScreenContext(frame, 'I can see your screen now. Please analyze what is currently displayed and provide step-by-step guidance in my language.');
         setAnalysisCount(prev => prev + 1);
       }
     }, 3000);
@@ -56,7 +56,7 @@ export const AskITScreenShare: React.FC = () => {
     intervalRef.current = setInterval(async () => {
       const frame = await captureFrame();
       if (frame) {
-        sendScreenContext(frame, 'Continue analyzing the current screen state');
+        sendScreenContext(frame, 'Continue analyzing the screen. If anything has changed, guide me on the next steps.');
         setAnalysisCount(prev => prev + 1);
       }
     }, 2500);
@@ -99,7 +99,7 @@ export const AskITScreenShare: React.FC = () => {
         startScreenAnalysis();
       }, 1000);
 
-      console.log('AskIT ready: screen sharing + voice active');
+      console.log('AskIT ready: screen sharing + voice active + automatic screen analysis');
     } catch (error) {
       console.error('Failed to start screen share:', error);
     }
@@ -151,7 +151,7 @@ export const AskITScreenShare: React.FC = () => {
             </div>
             <div>
               <h1 className="text-xl font-bold text-white">AskIT AI</h1>
-              <p className="text-sm text-gray-400">Your multilingual government services assistant</p>
+              <p className="text-sm text-gray-400">Multilingual AI assistant with live screen vision</p>
             </div>
             {isSharing && (
               <div className="flex items-center gap-2 px-3 py-1 bg-red-600/80 rounded-full">
@@ -193,8 +193,8 @@ export const AskITScreenShare: React.FC = () => {
               <Monitor className="w-24 h-24 mx-auto mb-6 text-white/50" />
               <h2 className="text-3xl font-bold mb-4">Welcome to AskIT AI</h2>
               <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-                Your intelligent assistant for government services. Speak naturally in Tamil, Telugu, Hindi, or English.
-                AskIT will guide you step-by-step through any process.
+                Your intelligent assistant for government services and everyday tasks. Speak naturally in Tamil, Telugu, Hindi, English, or any language.
+                AskIT will automatically understand your screen and guide you step-by-step.
               </p>
 
               <button
@@ -206,20 +206,20 @@ export const AskITScreenShare: React.FC = () => {
               </button>
 
               <div className="mt-8 grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-                <div className="p-4 bg-white/5 rounded-lg">
+                <div className="p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                   <Mic className="w-8 h-8 text-blue-400 mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Voice Active</h3>
-                  <p className="text-sm text-gray-400">Automatic multilingual voice</p>
+                  <h3 className="font-semibold mb-1">Always Listening</h3>
+                  <p className="text-sm text-gray-400">Auto-detects your language</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg">
+                <div className="p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                   <Eye className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Screen Understanding</h3>
-                  <p className="text-sm text-gray-400">Real-time visual analysis</p>
+                  <h3 className="font-semibold mb-1">Live Screen Vision</h3>
+                  <p className="text-sm text-gray-400">Analyzes every 2-3 seconds</p>
                 </div>
-                <div className="p-4 bg-white/5 rounded-lg">
+                <div className="p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-all">
                   <Sparkles className="w-8 h-8 text-cyan-400 mx-auto mb-2" />
-                  <h3 className="font-semibold mb-1">Step-by-Step</h3>
-                  <p className="text-sm text-gray-400">Guided assistance</p>
+                  <h3 className="font-semibold mb-1">No Typing Needed</h3>
+                  <p className="text-sm text-gray-400">Just speak naturally</p>
                 </div>
               </div>
             </div>
@@ -271,8 +271,12 @@ export const AskITScreenShare: React.FC = () => {
               </div>
 
               {error && (
-                <div className="glass-effect-bw rounded-lg p-4 border border-red-500/30 bg-red-900/20">
-                  <p className="text-red-300">{error}</p>
+                <div className="glass-effect-bw rounded-lg p-4 border border-red-500/30 bg-red-900/20 flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-red-300 font-semibold">Error</p>
+                    <p className="text-red-200 text-sm">{error}</p>
+                  </div>
                 </div>
               )}
             </div>
@@ -281,8 +285,14 @@ export const AskITScreenShare: React.FC = () => {
       </main>
 
       <footer className="bg-white/5 backdrop-blur-sm border-t border-white/10 p-4">
-        <div className="max-w-7xl mx-auto text-center text-sm text-gray-400">
-          Powered by OpenAI Realtime API - Supports Tamil, Telugu, Hindi, English, and more
+        <div className="max-w-7xl mx-auto flex items-center justify-between text-sm text-gray-400">
+          <div className="flex items-center gap-2">
+            <Activity className="w-4 h-4 text-green-400" />
+            <span>Powered by OpenAI Realtime API + GPT-4 Vision</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span>Multilingual: Tamil, Telugu, Hindi, English & 50+ languages</span>
+          </div>
         </div>
       </footer>
     </div>
